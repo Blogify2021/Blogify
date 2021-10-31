@@ -1,61 +1,119 @@
-{% include "header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='CSS/all.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='CSS/Style.css') }}"
+    />
+    <title>Bloggify | Homepage</title>
+  </head>
+  <body>
+    <!-- Main -->
+    <section class="main">
+      <img
+        src="{{ url_for('static', filename='Assets/images/BlogBG.jpg') }}"
+        alt="Showcase Background"
+      />
+      <div class="container">
+        <!-- Nav -->
+        <nav class="main-nav">
+          <h1>BLOGGIFY</h1>
+          {%if not logged_in :%}
+          <ul class="right-menu">
+            <li class="login"><a href="#">Login</a></li>
+            <li class="signup"><a href="#">Signup</a></li>
+          </ul>
+          {%endif%}
+        </nav>
 
-<!-- Page Header -->
-<header
-  class="masthead"
-  style="
-    background-image: url('https://images.unsplash.com/photo-1470092306007-055b6797ca72?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80');
-  "
->
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="site-heading">
-          <h1>Angela's Blog</h1>
-          <span class="subheading">A collection of random musings.</span>
+        <!-- Showcase -->
+        <header class="showcase">
+          <div class="title">
+            <h1>BLOGGIFY</h1>
+          </div>
+        </header>
+      </div>
+    </section>
+
+    <!-- Recent Blogs -->
+    <section class="top-blogs">
+      <div class="container">
+        <h1>Recent Blogs</h1>
+        <div class="card-holder">
+          {% for post in all_posts %}
+          <!-- Card 1 -->
+          {% if post.id%2 !=0 %}
+          <div class="blog-card">
+            {% else %}
+            <!-- Card 2 -->
+            <div class="blog-card alt">
+              {% endif %}
+              <div class="meta">
+                <img src="{{post.img_url}}" alt="Blog " class="photo" />
+                <ul class="details">
+                  <li class="author">
+                    <img
+                      class="Gravatar"
+                      src="{{post.author.email|gravatar}}"
+                    />
+                    <a
+                      href="{{url_for('show_user_profile',user_id=post.author.id)}}"
+                      >{{post.author.username}}</a
+                    >
+                  </li>
+                  <li class="date">
+                    <i class="far fa-calendar"></i>
+                    {{post.date}}
+                  </li>
+                </ul>
+              </div>
+
+              <div class="description">
+                <h1>{{post.title}}</h1>
+                <p>{{ post.subtitle }}</p>
+                <p class="read-more">
+                  <a href="{{ url_for('show_post', post_id=post.id) }}">
+                    Read More
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                </p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</header>
+    </section>
 
-<!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
-      {% for post in all_posts %}
-      <div class="post-preview">
-        <a href="{{ url_for('show_post', post_id=post.id) }}">
-          <h2 class="post-title">{{post.title}}</h2>
-          <h3 class="post-subtitle">{{post.subtitle}}</h3>
-        </a>
-        <p class="post-meta">
-          Posted by
-          <a href="#">{{post.author.username}}</a>
-          on {{post.date}} {% if current_user.is_authenticated and
-          current_user.is_admin: %}<a
-            href="{{url_for('delete_post', post_id=post.id) }}"
-            >✘</a
-          >{% endif %}
-        </p>
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="container">
+        <ul class="social-icons">
+          <li>
+            <a href="https://www.facebook.com/Bloggify-110808154732615">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/bloggify3">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/bloggify_officials/">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </li>
+        </ul>
+        <h3>Copyright &copy;, 2021</h3>
       </div>
-      <hr />
-      {% endfor %}
-
-      <!-- New Post -->
-      {% if current_user.is_authenticated and current_user.is_admin: %}
-      <div class="clearfix">
-        <a
-          class="btn btn-primary float-right"
-          href="{{url_for('add_new_post')}}"
-          >Create New Post</a
-        >
-      </div>
-      {% endif %}
-    </div>
-  </div>
-</div>
-<hr />
-
-{% include "footer.html" %}
+    </footer>
+  </body>
+</html>

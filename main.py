@@ -94,7 +94,7 @@ def load_user(user_id):
 
 @app.route('/')
 def get_all_posts():
-    posts = BlogPost.query.all()
+    posts = BlogPost.query.all()[::-1]
     return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated, current_user=current_user)
 
 
@@ -141,6 +141,17 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('get_all_posts'))
+
+
+@app.route("/user/<int:user_id>")
+def show_user_profile(user_id):
+    all_posts = BlogPost.query.all()
+    author = User.query.get(user_id)
+    user_posts = []
+    for post in all_posts:
+        if post.user_id == user_id:
+            user_posts.append(post)
+    return render_template("user.html", posts=user_posts, count=0, card_value="", author=author)
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])

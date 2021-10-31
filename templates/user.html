@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='CSS/all.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='CSS/user.css') }}"
+    />
+    <title>Blogger | Author Webpage</title>
+  </head>
+  <body>
+    <!-- Main -->
+    <section class="main">
+      <div class="container">
+        <!-- Nav -->
+        <nav class="main-nav">
+          <h1>BLOGGIFY</h1>
+          <ul class="right-menu">
+            <li id="share-btn"><i class="fas fa-share-alt"></i></li>
+            <li id="profile-btn">
+              <img class="Gravatar" src="{{author.email|gravatar}}" />
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Showcase -->
+        <header class="showcase">
+          <div class="title">
+            <h1>Mary Scarlet</h1>
+            <p>
+              "The world is a book and those who do not travel read only one
+              page."
+            </p>
+          </div>
+        </header>
+
+        <!-- Footer -->
+        <footer>
+          <span></span>
+          <span></span>
+          <span></span>
+        </footer>
+      </div>
+
+      <!-- Profile -->
+      <div class="profile">
+        <div class="profile-container">
+          <div class="close-btn"><i class="fas fa-times"></i></div>
+          <div class="profile-info">
+            <span>
+              <img class="Gravatar" src="{{author.email|gravatar}}" />
+            </span>
+            <h1>Mary Scarlet</h1>
+            <h6>23-March, 2001</h6>
+          </div>
+          <hr />
+          <ul class="options">
+            <li class="option-item">
+              <div class="icon"><i class="fas fa-edit"></i></div>
+              <h4>EDIT</h4>
+            </li>
+            <li class="option-item">
+              <div class="icon"><i class="fas fa-people-arrows"></i></div>
+              <h4>CONTACT US</h4>
+            </li>
+            <li class="option-item">
+              <div class="icon"><i class="fa fa-sign-out-alt"></i></div>
+              <h4>LOGOUT</h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="about">
+      <div class="container">
+        <div class="info">
+          <h1>About</h1>
+          <h2>Hi</h2>
+          <p>
+            My name is Scarlet, and I’m a gameplay programmer. My job is to come
+            up with some interesting gameplay while plug-and-playing all the
+            systems. I’ve worked on a wide variety of projects with Naughty Dog
+            as a freelancer. And I’m here to share some knowledge that I’ve
+            gained from these projects.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blogs -->
+    <section class="blogs">
+      <div class="container">
+        <h1>Blogs</h1>
+        <div class="blog-cards">
+          {% for post in posts %} {% set count=count+1 %} {% if count == 1 %} {%
+          set card_value= 'c-h' %} {% elif count == 2 %} {% set card_value= ''
+          %} {% elif count == 3 %} {% set card_value= '' %} {% elif count == 4
+          %} {% set card_value= 'c-h' %} {% elif count == 5 %} {% set
+          card_value= 'c-v' %} {% elif count == 6 %} {% set card_value= 'c-h' %}
+          {% elif count == 7 %} {% set card_value= 'c-h' %} {% elif count == 8
+          %} {% set card_value= 'c-h' %} {% else %} {% set card_value= '' %} {%
+          endif %} {% if count==9 %} {%set count=0%} {% endif %}
+          <div class="card {{card_value}}">
+            <img src="{{post.img_url}}" alt="Blog 1" />
+            <div class="card-info">
+              <a href="{{ url_for('show_post', post_id=post.id) }}">
+                <h3>{{post.title}}</h3>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="container">
+        <ul class="social-icons">
+          <li>
+            <a href="https://www.facebook.com/Bloggify-110808154732615">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/bloggify3">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/bloggify_officials/">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </li>
+        </ul>
+        <h3>@powered by BLOGGIFY</h3>
+      </div>
+    </footer>
+
+    <!-- Utils -->
+    <div id="modal-window" class="modal-window">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2></h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the body...</p>
+        </div>
+        <div class="modal-footer">
+          <h3></h3>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+  </body>
+</html>
