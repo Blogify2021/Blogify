@@ -59,10 +59,7 @@
                 <img src="{{post.img_url}}" alt="Blog " class="photo" />
                 <ul class="details">
                   <li class="author">
-                    <img
-                      class="Gravatar"
-                      src="{{post.author.email|gravatar}}"
-                    />
+                    <i class="fas fa-user-alt"></i>
                     <a
                       href="{{url_for('show_user_profile',user_id=post.author.id)}}"
                       >{{post.author.username}}</a

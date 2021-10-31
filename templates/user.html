@@ -24,7 +24,7 @@
           <ul class="right-menu">
             <li id="share-btn"><i class="fas fa-share-alt"></i></li>
             <li id="profile-btn">
-              <img class="Gravatar" src="{{author.email|gravatar}}" />
+              <i class="fas fa-user-alt"></i>
             </li>
           </ul>
         </nav>
@@ -40,7 +40,7 @@
           </div>
         </header>
 
-        <!-- Footer -->
+        <!-- Scroll down arrows -->
         <footer>
           <span></span>
           <span></span>
@@ -109,7 +109,7 @@
           %} {% set card_value= 'c-h' %} {% else %} {% set card_value= '' %} {%
           endif %} {% if count==9 %} {%set count=0%} {% endif %}
           <div class="card {{card_value}}">
-            <img src="{{post.img_url}}" alt="Blog 1" />
+            <img src="{{post.img_url}}" alt="Blog {{post.id}}" />
             <div class="card-info">
               <a href="{{ url_for('show_post', post_id=post.id) }}">
                 <h3>{{post.title}}</h3>
