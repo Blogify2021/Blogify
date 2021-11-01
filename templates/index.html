@@ -27,8 +27,8 @@
           <h1>BLOGGIFY</h1>
           {%if not logged_in :%}
           <ul class="right-menu">
-            <li class="login"><a href="#">Login</a></li>
-            <li class="signup"><a href="#">Signup</a></li>
+            <li class="login"><a href="{{url_for('login')}}">Login</a></li>
+            <li class="signup"><a href="{{url_for('register')}}">Signup</a></li>
           </ul>
           {%endif%}
         </nav>

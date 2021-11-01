@@ -20,11 +20,16 @@
       <div class="container">
         <!-- Nav -->
         <nav class="main-nav">
-          <h1>BLOGGIFY</h1>
+          <a href="{{url_for('get_all_posts')}}">
+            <h1>BLOGGIFY</h1>
+          </a>
           <ul class="right-menu">
             <li id="share-btn"><i class="fas fa-share-alt"></i></li>
+            {% if current_user.is_authenticated%} {% if
+            current_user.id==author.id %}
             <li id="profile-btn">
               <i class="fas fa-user-alt"></i>
+              {% endif %}{% endif %}
             </li>
           </ul>
         </nav>
@@ -54,7 +59,7 @@
           <div class="close-btn"><i class="fas fa-times"></i></div>
           <div class="profile-info">
             <span>
-              <img class="Gravatar" src="{{author.email|gravatar}}" />
+              <img src="{{author.email|gravatar}}" />
             </span>
             <h1>Mary Scarlet</h1>
             <h6>23-March, 2001</h6>
@@ -66,12 +71,20 @@
               <h4>EDIT</h4>
             </li>
             <li class="option-item">
-              <div class="icon"><i class="fas fa-people-arrows"></i></div>
-              <h4>CONTACT US</h4>
+              <div class="icon">
+                <a href="{{url_for('contact')}}"
+                  ><i class="fas fa-people-arrows"></i
+                ></a>
+              </div>
+              <a href="{{url_for('contact')}}"> <h4>CONTACT US</h4></a>
             </li>
             <li class="option-item">
-              <div class="icon"><i class="fa fa-sign-out-alt"></i></div>
-              <h4>LOGOUT</h4>
+              <div class="icon">
+                <a href="{{url_for('logout')}}"
+                  ><i class="fa fa-sign-out-alt"></i
+                ></a>
+              </div>
+              <a href="{{url_for('logout')}}"><h4>LOGOUT</h4></a>
             </li>
           </ul>
         </div>

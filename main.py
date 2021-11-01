@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, redirect, url_for, flash, abort
+from flask.globals import request
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from datetime import date
@@ -7,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
-from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
+from forms import CreatePostForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
 #from dotenv import load_dotenv
@@ -100,30 +101,31 @@ def get_all_posts():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        if User.query.filter_by(email=form.email.data).first():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if User.query.filter_by(email=form["email"]).first():
             flash("this email is already registered")
             return redirect(url_for('login'))
         new_user = User(
-            username=form.username.data,
-            email=form.email.data,
-            password=generate_password_hash(form.password.data),
+            username=form["username"],
+            email=form["email"],
+            password=generate_password_hash(form["password"]),
             is_admin=False
         )
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
         return redirect(url_for("get_all_posts"))
-    return render_template("register.html", form=form, logged_in=current_user.is_authenticated)
+    return render_template("signup.html", logged_in=current_user.is_authenticated)
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
+
+    if request.method == "POST":
+        form = request.form.to_dict()
+        email = form["email"]
+        password = form["password"]
         account = User.query.filter_by(email=email).first()
         if not account:
             flash("Email do not exist")
@@ -133,7 +135,7 @@ def login():
             login_user(account)
             return redirect(url_for('get_all_posts'))
 
-    return render_template("login.html", form=form, logged_in=current_user.is_authenticated)
+    return render_template("login.html", logged_in=current_user.is_authenticated)
 
 
 @app.route('/logout')
@@ -151,7 +153,7 @@ def show_user_profile(user_id):
     for post in all_posts:
         if post.user_id == user_id:
             user_posts.append(post)
-    return render_template("user.html", posts=user_posts, count=0, card_value="", author=author)
+    return render_template("user.html", posts=user_posts, count=0, card_value="", author=author, current_user=current_user)
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
@@ -180,7 +182,7 @@ def about():
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html", logged_in=current_user.is_authenticated)
+    return render_template("contactus.html", logged_in=current_user.is_authenticated)
 
 
 @app.route("/new-post", methods=["GET", "POST"])
