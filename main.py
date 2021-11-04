@@ -11,6 +11,7 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
+from send_mail import SendMail
 #from dotenv import load_dotenv
 # load_dotenv(".env")
 app = Flask(__name__)
@@ -180,8 +181,12 @@ def about():
     return render_template("about.html", logged_in=current_user.is_authenticated)
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        SendMail(form)
+        return redirect(url_for('get_all_posts'))
     return render_template("contactus.html", logged_in=current_user.is_authenticated)
 
 

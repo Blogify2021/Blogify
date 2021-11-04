@@ -5,9 +5,9 @@ import smtplib
 #SENDER_EMAIL_ID = os.getenv("SENDER_EMAIL")
 SENDER_EMAIL_ID = os.environ.get("SENDER_EMAIL")
 #PASSWORD = os.getenv("BLOGIFY_EMAIL")
-PASSWORD = os.environ.get("BLOGIFY_EMAIL")
+PASSWORD = os.environ.get("SENDER_PASSWORD")
 #RECIVER_EMAIL_ID = os.getenv("SENDER_PASSWORD")
-RECIVER_EMAIL_ID = os.environ.get("SENDER_PASSWORD")
+RECIVER_EMAIL_ID = os.environ.get("BLOGIFY_EMAIL")
 
 
 class SendMail:
