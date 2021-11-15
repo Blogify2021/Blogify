@@ -262,9 +262,9 @@ def show_post(post_id):
     return render_template("post.html", post=requested_post, logged_in=current_user.is_authenticated, current_user=current_user)
 
 
-@app.route("/about")
-def about():
-    return render_template("about.html", logged_in=current_user.is_authenticated)
+# @app.route("/about")
+# def about():
+#     return render_template("about.html", logged_in=current_user.is_authenticated)
 
 
 @app.route("/contact", methods=["GET", "POST"])
@@ -296,7 +296,7 @@ def add_new_post():
             "subtitle": "",
             "img_url": "",
             "body": "write blog here......."}
-    return render_template("edit.html", access_point="new post", current_user=current_user, post=post)
+    return render_template("edit.html", access_point="new blog", current_user=current_user, post=post)
 
 
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
@@ -317,6 +317,7 @@ def edit_post(post_id):
 
 
 @app.route("/delete/<int:post_id>")
+@login_required
 @adminsToDel
 def delete_post(post_id):
     post_to_delete = BlogPost.query.get(post_id)

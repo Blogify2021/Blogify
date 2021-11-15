@@ -13,13 +13,14 @@
   <body>
     <!-- Main -->
     <section class="main">
-      {% if access_point=="new user" or "edit profile" %}
+      {% if access_point=="new user" or access_point=="edit profile" %}
       <img
-        src="{{ url_for('static', filename='Assets/images/BlogWritingBG.jpg') }}"
+        src="{{ url_for('static', filename='Assets/images/ProfileEditingBG.jpg') }}"
         alt="Showcase Background"
       />
-      {% else %}<img
-        src="{{ url_for('static', filename='Assets/images/ProfileEditingBG.jpg') }}"
+      {% else %}
+      <img
+        src="{{ url_for('static', filename='Assets/images/BlogWritingBG.jpg') }}"
         alt="Showcase Background"
       />{% endif %}
       <div class="container">
@@ -111,7 +112,7 @@
     </section>
 
     <!-- Blog Editor -->
-    {% elif access_point=="new post" or access_point=="edit post" %}
+    {% elif access_point=="new blog" or access_point=="edit post" %}
 
     <section class="editor profile-editor">
       <div class="container">

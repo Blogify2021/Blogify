@@ -148,5 +148,5 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/flask
 
 #personal ignore file
-#blog.db
+blog.db
 poetry.lock
