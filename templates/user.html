@@ -17,6 +17,7 @@
   <body>
     <!-- Main -->
     <section class="main">
+      <img class="bg" src="{{author.user[0].img_url}}" alt="showcase background" />
       <div class="container">
         <!-- Nav -->
         <nav class="main-nav">
@@ -25,7 +26,7 @@
           </a>
           <ul class="right-menu">
             <li id="share-btn"><i class="fas fa-share-alt"></i></li>
-            {% if current_user.is_authenticated%} {% if
+            {% if current_user.is_authenticated %} {% if
             current_user.id==author.id %}
             <li id="profile-btn">
               <i class="fas fa-user-alt"></i>
@@ -37,11 +38,8 @@
         <!-- Showcase -->
         <header class="showcase">
           <div class="title">
-            <h1>Mary Scarlet</h1>
-            <p>
-              "The world is a book and those who do not travel read only one
-              page."
-            </p>
+            <h1>{{author.username}}</h1>
+            <p>"{{author.user[0].quote}}"</p>
           </div>
         </header>
 
@@ -61,30 +59,34 @@
             <span>
               <img src="{{author.email|gravatar}}" />
             </span>
-            <h1>Mary Scarlet</h1>
-            <h6>23-March, 2001</h6>
+            <h1>{{author.username}}</h1>
+            <h6>"{{author.user[0].dob}}"</h6>
           </div>
           <hr />
           <ul class="options">
-            <li class="option-item">
-              <div class="icon"><i class="fas fa-edit"></i></div>
-              <h4>EDIT</h4>
+            <li>
+              <a href="{{url_for('add_new_post')}}" class="option-item">
+                <div class="icon"><i class="fas fa-plus"></i></div>
+                <h4>New Blog</h4>
+              </a>
             </li>
-            <li class="option-item">
-              <div class="icon">
-                <a href="{{url_for('contact')}}"
-                  ><i class="fas fa-people-arrows"></i
-                ></a>
-              </div>
-              <a href="{{url_for('contact')}}"> <h4>CONTACT US</h4></a>
+            <li>
+              <a href="{{url_for('edit_profile')}}" class="option-item">
+                <div class="icon"><i class="fas fa-edit"></i></div>
+                <h4>Edit</h4>
+              </a>
             </li>
-            <li class="option-item">
-              <div class="icon">
-                <a href="{{url_for('logout')}}"
-                  ><i class="fa fa-sign-out-alt"></i
-                ></a>
-              </div>
-              <a href="{{url_for('logout')}}"><h4>LOGOUT</h4></a>
+            <li>
+              <a href="{{url_for('contact')}}" class="option-item">
+                <div class="icon"><i class="fas fa-people-arrows"></i></div>
+                <h4>Contact Us</h4>
+              </a>
+            </li>
+            <li>
+              <a href="{{url_for('logout')}}" class="option-item">
+                <div class="icon"><i class="fa fa-sign-out-alt"></i></div>
+                <h4>Logout</h4>
+              </a>
             </li>
           </ul>
         </div>
@@ -97,13 +99,7 @@
         <div class="info">
           <h1>About</h1>
           <h2>Hi</h2>
-          <p>
-            My name is Scarlet, and I’m a gameplay programmer. My job is to come
-            up with some interesting gameplay while plug-and-playing all the
-            systems. I’ve worked on a wide variety of projects with Naughty Dog
-            as a freelancer. And I’m here to share some knowledge that I’ve
-            gained from these projects.
-          </p>
+          <p>{{author.user[0].about | safe}}</p>
         </div>
       </div>
     </section>

@@ -1,1 +1,1 @@
-is_authenticated
+../static/Assets/images/UserBG.jpg

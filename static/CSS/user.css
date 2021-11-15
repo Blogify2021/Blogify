@@ -30,12 +30,18 @@ ul {
 /* Main */
 .main {
   height: 100vh;
-  background: #f4f4f4 url("../Assets/Images/UserBG.jpg") no-repeat center
-    center/cover;
+  /* background: #f4f4f4 url("../Assets/Images/UserBG.jpg") no-repeat center center/cover; */
   position: relative;
   overflow: hidden;
 }
-
+.main .bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  z-index: -1;
+}
 .main .container {
   /*height: 100%;*/
   position: relative;
@@ -261,7 +267,7 @@ ul {
 }
 
 .profile .options .option-item {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 5px 0;
   display: flex;
   justify-content: flex-start;
@@ -283,6 +289,7 @@ ul {
   font-weight: lighter;
   font-size: 1.1rem;
   letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .profile .options .option-item:hover {

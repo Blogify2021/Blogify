@@ -27,9 +27,21 @@
           <h1>BLOGGIFY</h1>
           {%if not logged_in :%}
           <ul class="right-menu">
-            <li class="login"><a href="{{url_for('login')}}">Login</a></li>
+            <li class="login">
+              <a
+                href="{{url_for('login',class_='log',message='enter details below')}}"
+                >Login</a
+              >
+            </li>
             <li class="signup"><a href="{{url_for('register')}}">Signup</a></li>
           </ul>
+          {%else%}
+          <a
+            href="{{url_for('show_user_profile',user_id=current_user.id)}}"
+            class="icon"
+          >
+            <img src="{{current_user.email|gravatar}}" alt="Avatar Icon" />
+          </a>
           {%endif%}
         </nav>
 

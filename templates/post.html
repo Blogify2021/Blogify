@@ -23,6 +23,20 @@
         <nav class="main-nav">
           <a href="{{ url_for('get_all_posts') }}"><h1>BLOGGIFY</h1></a>
           <ul class="right-menu">
+            {% if current_user == post.author %}
+            <li>
+              <a href="{{url_for('edit_post',post_id=post.id)}}">
+                <i class="far fa-edit"></i>
+              </a>
+            </li>
+            {%endif%} {% if current_user == post.author or current_user.is_admin
+            %}
+            <li>
+              <a href="{{url_for('delete_post',post_id=post.id)}}">
+                <i class="far fa-trash-alt"></i>
+              </a>
+            </li>
+            {%endif%}
             <li>
               <a href="{{url_for('show_user_profile',user_id=post.author.id)}}"
                 ><img src="{{post.author.email|gravatar}}"
@@ -35,6 +49,10 @@
         <header class="showcase">
           <div class="title">
             <h1>{{post.title}}</h1>
+            <h4>
+              <i class="fas fa-user-alt"></i>
+              {{post.author.username}}
+            </h4>
             <h4>
               <i class="far fa-calendar"></i>
               {{post.date}}
@@ -63,7 +81,35 @@
         </div>
       </div>
     </section>
+    <!-- Comments Area -->
+    <section class="comment-area">
+      <div class="container">
+        <!-- Comment Boxes -->
+        {% for comment in post.comments: %}
+        <div class="comment-box">
+          <img src="{{comment.author.email|gravatar}}" alt="Avatar Icon" />
+          <div class="details">
+            <header>
+              <a
+                href="{{url_for('show_user_profile',user_id=comment.author.id)}}"
+              >
+                <h4>{{comment.author.username}}</h4>
+              </a>
+              <h5>{{comment.date_time}}</h5>
+            </header>
+            <p>{{comment.text|safe}}</p>
+          </div>
+        </div>
+        {% endfor %}
 
+        <!-- Comment Form -->
+        <form action="{{url_for('show_post',post_id=post.id)}}" method="post">
+          <h3>Write comment</h3>
+          <textarea name="comment" id="" cols="30" rows="5"></textarea>
+          <input type="submit" value="Comment" />
+        </form>
+      </div>
+    </section>
     <!-- Footer -->
     <footer class="main-footer">
       <div class="container">
