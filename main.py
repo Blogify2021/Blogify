@@ -13,7 +13,7 @@ from functools import wraps
 from send_mail import SendMail
 #from dotenv import load_dotenv
 # load_dotenv(".env")
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 #app.config['SECRET_KEY'] = os.getenv('APP_SECRET')
 app.config['SECRET_KEY'] = os.environ.get('APP_SECRET')
 ckeditor = CKEditor(app)
