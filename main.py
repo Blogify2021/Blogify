@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for, flash, abort
+from flask import Flask, render_template, redirect, url_for, abort
 from flask.globals import request
 import datetime as dt
 # from flask_bootstrap import Bootstrap
@@ -8,7 +8,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
-# from forms import CreatePostForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
 from send_mail import SendMail
@@ -123,7 +122,6 @@ def load_user(user_id):
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()[::-1]
-    # print(current_user.user[0].dob)
     return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated, current_user=current_user)
 
 

@@ -1,1 +1,0 @@
-../static/Assets/images/UserBG.jpg
