@@ -94,24 +94,35 @@ class Comment(db.Model):
 db.create_all()
 
 
-def adminsToDel(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        post = BlogPost.query.get(args)
-        if (current_user == post.author) or (current_user.is_admin):
-            return f(*args, **kwargs)
-        return abort(403)
-    return decorated_function
+# def adminsToDel(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         post = BlogPost.query.get(args)
+#         if (current_user == post.author) or (current_user.is_admin):
+#             return f(*args, **kwargs)
+#         return abort(403)
+#     return decorated_function
 
 
-def adminsToEdit(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        post = BlogPost.query.get(args)
-        if (current_user == post.author):
-            return f(*args, **kwargs)
-        return abort(403)
-    return decorated_function
+# def adminsToEdit(argument):
+#     def decorator(function):
+#         def wrapper(*args, **kwargs):
+#             post = BlogPost.query.get(argument)
+#             if (current_user == post.author):
+#                 return function(*args, **kwargs)
+#             return abort(403)
+#         return wrapper
+#     return decorator
+
+
+# def adminsToEdit(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         post = BlogPost.query.get(args)
+#         if (current_user == post.author):
+#             return f(*args, **kwargs)
+#         return abort(403)
+#     return decorated_function
 
 
 @login_manager.user_loader
@@ -302,29 +313,32 @@ def add_new_post():
 
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
 @login_required
-@adminsToEdit
 def edit_post(post_id):
     post = BlogPost.query.get(post_id)
-    if request.method == "POST":
-        edit_form = request.form.to_dict()
-        post.title = edit_form["title"]
-        post.subtitle = edit_form["subtitle"]
-        post.img_url = edit_form["img_url"]
-        post.body = edit_form["body"]
-        db.session.commit()
-        return redirect(url_for("show_post", post_id=post.id))
+    if (current_user == post.author):
+        if request.method == "POST":
+            edit_form = request.form.to_dict()
+            post.title = edit_form["title"]
+            post.subtitle = edit_form["points"]
+            post.img_url = edit_form["img_url"]
+            post.body = edit_form["body"]
+            db.session.commit()
+            return redirect(url_for("show_post", post_id=post.id))
 
-    return render_template("edit.html", access_point="edit post", logged_in=current_user.is_authenticated, post=post)
+        return render_template("edit.html", access_point="edit post", logged_in=current_user.is_authenticated, post=post)
+    return abort(403)
 
 
 @app.route("/delete/<int:post_id>")
 @login_required
-@adminsToDel
 def delete_post(post_id):
-    post_to_delete = BlogPost.query.get(post_id)
-    db.session.delete(post_to_delete)
-    db.session.commit()
-    return redirect(url_for('get_all_posts'))
+    post = BlogPost.query.get(post_id)
+    if (current_user == post.author) or (current_user.is_admin):
+        post_to_delete = BlogPost.query.get(post_id)
+        db.session.delete(post_to_delete)
+        db.session.commit()
+        return redirect(url_for('get_all_posts'))
+    return abort(403)
 
 
 if __name__ == "__main__":
