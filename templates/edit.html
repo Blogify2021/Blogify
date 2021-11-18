@@ -105,7 +105,11 @@
           </div>
 
           <div class="item">
+            {% if access_point=="new user" %}
+            <input type="submit" value="Create" />
+            {% else %}
             <input type="submit" value="Save" />
+            {% endif %}
           </div>
         </form>
       </div>
@@ -154,7 +158,11 @@
           </div>
 
           <div class="item">
+            {% if access_point=="new blog" %}
             <input type="submit" value="Create" />
+            {% else %}
+            <input type="submit" value="Save" />
+            {% endif %}
           </div>
         </form>
       </div>
