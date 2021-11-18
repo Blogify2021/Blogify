@@ -201,10 +201,10 @@ def edit_profile():
         db.session.commit()
     if request.method == "POST":
         edit_form = request.form.to_dict()
-        user_profile.title = edit_form["title"]
-        user_profile.subtitle = edit_form["subtitle"]
+        user_profile.dob = edit_form["dob"]
+        user_profile.quote = edit_form["quote"]
         user_profile.img_url = edit_form["img_url"]
-        user_profile.body = edit_form["body"]
+        user_profile.about = edit_form["about"]
         db.session.commit()
         return redirect(url_for("show_user_profile", user_id=user_id))
 
