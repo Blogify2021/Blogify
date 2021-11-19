@@ -131,9 +131,15 @@ a {
 }
 
 /* Editor */
-.editor {
-  background: rgb(226, 213, 204) url("../Assets/Images/Pattern1.png") repeat
+.blog-editor {
+  background: rgb(226, 213, 204) url("../Assets/Images/PatternBlog.png") repeat
     fixed center center;
+  background-blend-mode: soft-light;
+}
+
+.profile-editor {
+  background: rgb(204, 206, 226) url("../Assets/Images/PatternProfile.png")
+    repeat fixed center center;
   background-blend-mode: soft-light;
 }
 
