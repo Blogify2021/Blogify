@@ -271,6 +271,7 @@ def show_post(post_id):
             )
             db.session.add(new_comment)
             db.session.commit()
+            return redirect(request.referrer)
     return render_template("post.html", post=requested_post, logged_in=current_user.is_authenticated, current_user=current_user)
 
 
@@ -334,6 +335,10 @@ def edit_post(post_id):
 def delete_post(post_id):
     post = BlogPost.query.get(post_id)
     if (current_user == post.author) or (current_user.is_admin):
+        comments = Comment.query.filter_by(post_id=post_id)
+        for comment in comments:
+            db.session.delete(comment)
+            db.session.commit()
         post_to_delete = BlogPost.query.get(post_id)
         db.session.delete(post_to_delete)
         db.session.commit()
