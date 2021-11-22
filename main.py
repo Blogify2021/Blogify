@@ -146,8 +146,8 @@ def register():
             username=form["username"],
             email=form["email"],
             password=generate_password_hash(form["password"]),
-            #is_admin=False
-            is_admin=True
+            is_admin=False
+            #is_admin=True
         )
         db.session.add(new_user)
         db.session.commit()
@@ -208,7 +208,7 @@ def edit_profile():
     user_id = current_user.id
     user_profile = UserProfile.query.filter_by(user_id=user_id).first()
     if user_profile.img_url == "../static/Assets/Images/UserBG.jpg":
-        user_profile.img_url == ""
+        user_profile.img_url = ""
         db.session.commit()
     if request.method == "POST":
         edit_form = request.form.to_dict()
