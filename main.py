@@ -69,7 +69,7 @@ class UserProfile(db.Model):
     __tablename__ = "user_profile"
     id = db.Column(db.Integer, primary_key=True)
     dob = db.Column(db.String(100))
-    quote = db.Column(db.String(100))
+    quote = db.Column(db.String(500))
     img_url = db.Column(db.Text, nullable=False)
     about = db.Column(db.Text, nullable=False)
 
@@ -146,8 +146,8 @@ def register():
             username=form["username"],
             email=form["email"],
             password=generate_password_hash(form["password"]),
-            # is_admin=False
-            is_admin=True
+            is_admin=False
+            # is_admin=True
         )
         db.session.add(new_user)
         db.session.commit()
