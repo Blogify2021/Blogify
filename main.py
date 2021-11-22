@@ -146,8 +146,8 @@ def register():
             username=form["username"],
             email=form["email"],
             password=generate_password_hash(form["password"]),
-            is_admin=False
-            # is_admin=True
+            #is_admin=False
+            is_admin=True
         )
         db.session.add(new_user)
         db.session.commit()
