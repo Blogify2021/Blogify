@@ -196,7 +196,7 @@ def new_profile():
     user_details = {
         "dob": "",
         "quote": "",
-        "image_url": "",
+        "image_url": "../static/Assets/Images/UserBG.jpg",
         "about": "Write something about you......"
     }
     return render_template("edit.html", access_point="new user", current_user=current_user, user_details=user_details)
