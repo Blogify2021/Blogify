@@ -47,16 +47,16 @@ class BlogPost(db.Model):
     author = relationship("User", back_populates="posts")
     title = db.Column(db.String(250), unique=True, nullable=False)
     subtitle = db.Column(db.String(250), nullable=False)
-    date = db.Column(db.String(250), nullable=False)
+    date = db.Column(db.Text, nullable=False)
     body = db.Column(db.Text, nullable=False)
-    img_url = db.Column(db.String(250), nullable=False)
+    img_url = db.Column(db.Text, nullable=False)
     comments = relationship("Comment", back_populates="parent_post")
 
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True)
+    email = db.Column(db.String(500), unique=True)
     password = db.Column(db.String(100))
     username = db.Column(db.String(100))
     posts = relationship("BlogPost", back_populates="author")
@@ -69,7 +69,7 @@ class UserProfile(db.Model):
     __tablename__ = "user_profile"
     id = db.Column(db.Integer, primary_key=True)
     dob = db.Column(db.String(100))
-    quote = db.Column(db.String(100))
+    quote = db.Column(db.String(500))
     img_url = db.Column(db.Text, nullable=False)
     about = db.Column(db.Text, nullable=False)
 
@@ -146,8 +146,8 @@ def register():
             username=form["username"],
             email=form["email"],
             password=generate_password_hash(form["password"]),
-            is_admin=False
-            # is_admin=True
+            # is_admin=False
+            is_admin=True
         )
         db.session.add(new_user)
         db.session.commit()
@@ -207,8 +207,8 @@ def new_profile():
 def edit_profile():
     user_id = current_user.id
     user_profile = UserProfile.query.filter_by(user_id=user_id).first()
-    if user_profile.img_url == "../static/Assets/images/UserBG.jpg":
-        user_profile.img_url == ""
+    if user_profile.img_url == "../static/Assets/Images/UserBG.jpg":
+        user_profile.img_url = ""
         db.session.commit()
     if request.method == "POST":
         edit_form = request.form.to_dict()
@@ -243,7 +243,7 @@ def show_user_profile(user_id):
         new_profile = UserProfile(
             dob="",
             quote="",
-            img_url="../static/Assets/images/UserBG.jpg",
+            img_url="../static/Assets/Images/UserBG.jpg",
             about="",
             user=author
         )
@@ -296,7 +296,7 @@ def add_new_post():
         form = request.form.to_dict()
         new_post = BlogPost(
             title=form["title"],
-            subtitle=form["points"],
+            subtitle=form["subtitle"],
             body=form["body"],
             img_url=form["img_url"],
             author=current_user,
@@ -320,7 +320,7 @@ def edit_post(post_id):
         if request.method == "POST":
             edit_form = request.form.to_dict()
             post.title = edit_form["title"]
-            post.subtitle = edit_form["points"]
+            post.subtitle = edit_form["subtitle"]
             post.img_url = edit_form["img_url"]
             post.body = edit_form["body"]
             db.session.commit()
