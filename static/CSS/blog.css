@@ -169,12 +169,8 @@ a {
   font-size: 3rem;
 }
 
-.non-empty-blog {
-  text-align: center;
-  font-size: 17px;
-}
-
 .non-empty-blog h1 {
+  text-align: center;
   text-transform: uppercase;
   font-family: Fira-Code;
   font-size: 30px;
