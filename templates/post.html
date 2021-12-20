@@ -95,7 +95,15 @@
               >
                 <h4>{{comment.author.username}}</h4>
               </a>
-              <h5>{{comment.date_time}}</h5>
+              <h5>
+                {%if (current_user == comment.author) or
+                (current_user.is_admin):%}
+                <a
+                  href="{{url_for('delete_comment',comment_id=comment.id)}}"
+                  class="comment-del"
+                  >&#10060;</a
+                >{%endif%} {{comment.date_time}}
+              </h5>
             </header>
             <p>{{comment.text|safe}}</p>
           </div>

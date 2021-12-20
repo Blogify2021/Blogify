@@ -76,6 +76,7 @@
               type="text"
               name="quote"
               value="{{user_details.quote}}"
+              maxlength="100"
               required
             />
           </div>
@@ -123,7 +124,13 @@
         <form action="#" method="post">
           <div class="item">
             <h1>Blog Name</h1>
-            <input type="text" name="title" value="{{post.title}}" required />
+            <input
+              type="text"
+              name="title"
+              value="{{post.title}}"
+              required
+              maxlength="50"
+            />
           </div>
           <div class="item">
             <h1>Blog subtitle</h1>
@@ -131,6 +138,7 @@
               type="text"
               name="subtitle"
               value="{{post.subtitle}}"
+              maxlength="100"
               required
             />
           </div>

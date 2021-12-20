@@ -30,10 +30,10 @@ ul {
 /* Main */
 .main {
   height: 100vh;
-  /* background: #f4f4f4 url("../Assets/Images/UserBG.jpg") no-repeat center center/cover; */
   position: relative;
   overflow: hidden;
 }
+
 .main .bg {
   display: block;
   width: 100%;
@@ -42,6 +42,7 @@ ul {
   position: absolute;
   z-index: -1;
 }
+
 .main .container {
   /*height: 100%;*/
   position: relative;
@@ -60,6 +61,7 @@ ul {
 
 .main-nav a {
   color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .main-nav ul {
@@ -102,6 +104,7 @@ ul {
   border-radius: 20px;
   color: #fff;
   backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .showcase .title h1 {
@@ -229,8 +232,8 @@ ul {
 
 .profile .profile-info span {
   margin: 30px 0 20px;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   text-align: center;
   font-size: 80px;
@@ -262,7 +265,7 @@ ul {
 }
 
 .profile .options {
-  margin: 20px 0;
+  margin: 10px 0;
   list-style: none;
 }
 
@@ -548,6 +551,32 @@ ul {
   padding: 2px 16px;
   background: #5cb85c;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-footer a {
+  display: none;
+  margin: 5px 0;
+  color: #fff;
+  border: 1px solid #000;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 10px 30px;
+  background-color: #000;
+  transition: 0.2s all;
+}
+
+.modal-footer a:hover {
+  color: #000;
+  padding: 10px 50px;
+  background-color: transparent;
+}
+
+.modal-btn.show {
+  display: block;
 }
 
 .modal-window.show {

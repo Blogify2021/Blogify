@@ -9,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_gravatar import Gravatar
-from functools import wraps
+# from functools import wraps
 from send_mail import SendMail
 #from dotenv import load_dotenv
 # load_dotenv(".env")
@@ -45,8 +45,8 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author = relationship("User", back_populates="posts")
-    title = db.Column(db.String(250), unique=True, nullable=False)
-    subtitle = db.Column(db.String(250), nullable=False)
+    title = db.Column(db.String(50), nullable=False)
+    subtitle = db.Column(db.String(100), nullable=False)
     date = db.Column(db.Text, nullable=False)
     body = db.Column(db.Text, nullable=False)
     img_url = db.Column(db.Text, nullable=False)
@@ -56,9 +56,9 @@ class BlogPost(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(500), unique=True)
-    password = db.Column(db.String(100))
-    username = db.Column(db.String(100))
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(20))
+    username = db.Column(db.String(20))
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="author")
     user = relationship("UserProfile", back_populates="user")
@@ -69,7 +69,7 @@ class UserProfile(db.Model):
     __tablename__ = "user_profile"
     id = db.Column(db.Integer, primary_key=True)
     dob = db.Column(db.String(100))
-    quote = db.Column(db.String(500))
+    quote = db.Column(db.String(100))
     img_url = db.Column(db.Text, nullable=False)
     about = db.Column(db.Text, nullable=False)
 
@@ -275,6 +275,16 @@ def show_post(post_id):
     return render_template("post.html", post=requested_post, logged_in=current_user.is_authenticated, current_user=current_user)
 
 
+@app.route("/deletecomment/<int:comment_id>")
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.get(comment_id)
+    if (current_user == comment.author) or (current_user.is_admin):
+        db.session.delete(comment)
+        db.session.commit()
+        return redirect(request.referrer)
+    return abort(403)
+
 # @app.route("/about")
 # def about():
 #     return render_template("about.html", logged_in=current_user.is_authenticated)
@@ -330,7 +340,7 @@ def edit_post(post_id):
     return abort(403)
 
 
-@app.route("/delete/<int:post_id>")
+@app.route("/deletepost/<int:post_id>")
 @login_required
 def delete_post(post_id):
     post = BlogPost.query.get(post_id)
@@ -341,6 +351,34 @@ def delete_post(post_id):
             db.session.commit()
         post_to_delete = BlogPost.query.get(post_id)
         db.session.delete(post_to_delete)
+        db.session.commit()
+        return redirect(url_for('get_all_posts'))
+    return abort(403)
+
+
+@app.route("/deleteaccount/<int:user_id>")
+@login_required
+def delete_account(user_id):
+    user = User.query.get(user_id)
+    if (current_user == user) or (current_user.is_admin):
+        comments = Comment.query.filter_by(user_id=user_id)
+        for comment in comments:
+            db.session.delete(comment)
+            db.session.commit()
+        posts = BlogPost.query.filter_by(user_id=user_id)
+        for post in posts:
+            post_id = post.id
+            comments = Comment.query.filter_by(post_id=post_id)
+            for comment in comments:
+                db.session.delete(comment)
+                db.session.commit()
+            post_to_delete = BlogPost.query.get(post_id)
+            db.session.delete(post_to_delete)
+            db.session.commit()
+        userprofile = UserProfile.query.filter_by(user_id=user_id)[0]
+        db.session.delete(userprofile)
+        db.session.commit()
+        db.session.delete(user)
         db.session.commit()
         return redirect(url_for('get_all_posts'))
     return abort(403)
