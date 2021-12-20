@@ -7,40 +7,43 @@ let modalWindow = document.getElementById("modal-window");
 let modalCloseBtn = document.getElementsByClassName("close")[0];
 
 // Share Button
-shareBtn.addEventListener("click", function () {
-  if (!modalWindow.classList.contains("show")) {
-    modalWindow.classList.add("show");
-  }
-  CopyPageLink();
-});
+if (shareBtn != null) {
+  shareBtn.addEventListener("click", function () {
+    if (!modalWindow.classList.contains("show")) {
+      modalWindow.classList.add("show");
+    }
+    CopyPageLink();
+  });
+}
 
 // Delete Button
-deleteBtn.addEventListener("click", function () {
-  if (!modalWindow.classList.contains("show")) {
-    modalWindow.classList.add("show");
-  }
+if (deleteBtn != null) {
+  deleteBtn.addEventListener("click", function () {
+    if (!modalWindow.classList.contains("show")) {
+      modalWindow.classList.add("show");
+    }
 
-  DisplayModal(
-    "",
-    "Do you want to parmanently <br>delete this account?",
-    "",
-    true
-  );
-});
+    DisplayModal("", "It will parmanently delete this!!", "", true);
+  });
+}
 
 // Profile Button
-profileBtn.addEventListener("click", function () {
-  if (!profile.classList.contains("show-profile")) {
-    profile.classList.add("show-profile");
-  }
-});
+if (profileBtn != null) {
+  profileBtn.addEventListener("click", function () {
+    if (!profile.classList.contains("show-profile")) {
+      profile.classList.add("show-profile");
+    }
+  });
+}
 
 // Profile Close Button
-closeBtn.addEventListener("click", function () {
-  if (profile.classList.contains("show-profile")) {
-    profile.classList.remove("show-profile");
-  }
-});
+if (closeBtn != null) {
+  closeBtn.addEventListener("click", function () {
+    if (profile.classList.contains("show-profile")) {
+      profile.classList.remove("show-profile");
+    }
+  });
+}
 
 // Modal Window Close Button
 modalCloseBtn.addEventListener("click", function () {

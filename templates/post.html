@@ -31,8 +31,8 @@
             </li>
             {%endif%} {% if current_user == post.author or current_user.is_admin
             %}
-            <li>
-              <a href="{{url_for('delete_post',post_id=post.id)}}">
+            <li id="delete-btn">
+              <a href="#">
                 <i class="far fa-trash-alt"></i>
               </a>
             </li>
@@ -141,5 +141,26 @@
         <h3>Copyright &copy;, 2021</h3>
       </div>
     </footer>
+    <!-- Utils -->
+    <div id="modal-window" class="modal-window">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2></h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>Some text hereee...</p>
+        </div>
+        <div class="modal-footer">
+          <h3></h3>
+          <a
+            href="{{url_for('delete_post',post_id=post.id)}}"
+            class="modal-btn show"
+            >Yes</a
+          >
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>
 </html>
